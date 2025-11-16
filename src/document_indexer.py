@@ -23,6 +23,7 @@ class Indexation:
             chunk_size=self.chunk_size,
             chunk_overlap=self.chunk_overlap,
             add_start_index=True,
+            separators=["\n## ","\n### ","\n\n","\n"," ",""]
         )
         all_splits = text_splitter.split_documents(self.documents)
         self.chunks = all_splits
@@ -48,5 +49,6 @@ class Indexation:
         self.splitting()
         self.embedding()
         return self.vector_store()
+
 
 
