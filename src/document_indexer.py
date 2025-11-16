@@ -24,9 +24,11 @@ class Indexation :
         return [chunk.page_content for chunk in all_splits]
 
     def embedding(self):
-        embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+        #j'ai utilisé le modele huggingFace recommander dans la documentation de langchain
+        embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")  
         embeddings = embedding_model.embed_documents(self.splitting())
         return embeddings
+
 
 
 
