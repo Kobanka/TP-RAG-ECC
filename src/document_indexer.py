@@ -49,6 +49,7 @@ class Indexation:
         self.splitting()
         self.embedding()
         return self.vector_store()
-
-
-
+        
+#pour utiliser la class et avoir les embeddings
+#test = Indexation('data/doc_1.pdf', 500, 50)
+#print(test.index().get(include=["embeddings"])['embeddings'])
