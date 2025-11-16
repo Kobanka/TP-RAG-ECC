@@ -43,3 +43,10 @@ class Indexation:
             )
         return self.vectorstore
 
+    def index(self):
+        self.data_load()
+        self.splitting()
+        self.embedding()
+        return self.vector_store()
+
+
