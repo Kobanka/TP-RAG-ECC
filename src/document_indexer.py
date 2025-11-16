@@ -19,9 +19,8 @@ class Indexation :
             chunk_overlap=self.chunk_overlap,
             add_start_index=True,
         )
-        
         all_splits = text_splitter.split_documents(self.data_load())
-        return [chunk.page_content for chunk in all_splits]
+        return all_splits
 
     def embedding(self):
         #j'ai utilisé le modele huggingFace recommander dans la documentation de langchain
@@ -35,6 +34,7 @@ class Indexation :
             persist_directory="./chroma_langchain_db"
         )
         return vector_store
+
 
 
 
