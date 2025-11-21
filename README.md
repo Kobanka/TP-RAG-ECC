@@ -68,6 +68,10 @@ TP-RAG-ECC/
 ## 💾 Installation
 
 ## 🧑‍💻 Utilisation
+exemple 
+- "Quels sont les points principaux discutés dans ces documents ?"
+- "Quelle méthode est utilisée pour l'analyse ?"
+- "Quelles conclusions sont tirées ?"
 
 ---
 
