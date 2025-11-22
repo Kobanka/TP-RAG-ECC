@@ -2,6 +2,7 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
+from langchain_community.document_loaders import PyPDFium2Loader 
 
 class Indexation:
     def __init__(self, path, chunk_size, chunk_overlap):
@@ -15,7 +16,7 @@ class Indexation:
         self.vectorstore = None
 
     def data_load(self):
-        loader = PyPDFLoader(self.path)
+        loader = PyPDFium2Loader(self.path)
         self.documents = loader.load()
         return self.documents
     def splitting(self):
