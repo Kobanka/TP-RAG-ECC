@@ -22,6 +22,6 @@ class RAGQuestionAnswering:
             f"Answer:"
         )
 
-        # 4. Appeler le LLM avec le prompt
+        #appeler le llm
         response = self.llm.invoke(prompt)
         return response.content.strip()
