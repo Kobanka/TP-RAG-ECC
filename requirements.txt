@@ -3,5 +3,7 @@ langchain-community
 langchain-huggingface
 langchain-chroma
 sentence-transformers
-pypdf
+pypdfium2
 chromadb
+langchain-core
+langchain-openai
