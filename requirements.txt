@@ -7,3 +7,4 @@ pypdfium2
 chromadb
 langchain-core
 langchain-openai
+python-dotenv
