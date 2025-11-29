@@ -1,7 +1,7 @@
 from src.document_indexer import Indexation
 import glob
 
-pdf_files = glob.glob("data/*.pdf")
+pdf_files = glob.glob("../data/*.pdf")
 
 for pdf in pdf_files:
     print("Indexation de :", pdf)
