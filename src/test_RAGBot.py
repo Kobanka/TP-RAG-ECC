@@ -19,11 +19,7 @@ llm = ChatOpenAI(
 
 #charger le retriever et initialiser le RAG
 retriever = Recherche()
-rag = RAGQuestionAnswering(retriever=retriever, llm=llm)
+chatbot = RAGQuestionAnswering(retriever=retriever, llm=llm, max_history=5)
 
-#tester par une question
-question = "Why is AI trade issue given the documents, explain?"
-answer = rag.answer(question, k=4)
-
-print("Question :", question)
-print("Réponse :", answer)
+# Lancer la session interactive
+chatbot.interactive_session()
