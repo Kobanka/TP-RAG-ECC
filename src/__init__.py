@@ -5,7 +5,7 @@ import glob
 from dotenv import load_dotenv
 from src.document_indexer import Indexation
 from src.retriever import Recherche
-from src.chatbot import RAGQuestionAnswering
+from src.RAG_ChatBot import RAGQuestionAnswering
 from langchain_openai import ChatOpenAI
 
 # Ajouter le répertoire parent au PATH
@@ -34,4 +34,5 @@ llm = ChatOpenAI(
 retriever = Recherche()
 chatbot = RAGQuestionAnswering(retriever=retriever, llm=llm, max_history=5)
 chatbot.interactive_session()
+
 
