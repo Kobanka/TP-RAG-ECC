@@ -1,6 +1,6 @@
 # test_qa.py
 from src.retriever import Recherche
-from src.rag_qa import RAGQuestionAnswering
+from src.RAG_ChatBot import RAGQuestionAnswering
 from langchain_openai import ChatOpenAI
 import os
 from dotenv import load_dotenv
