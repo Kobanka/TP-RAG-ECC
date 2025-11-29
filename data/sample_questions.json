@@ -1,0 +1,106 @@
+[
+  {
+    "question": "What are the main components of the novel hybrid recommendation system proposed, and what dual objectives does it aim to achieve?",
+    "answer": "The system combines a content-based component and a collaborative filtering component. It aims to solve the cold-start problem and improve recommendation accuracy by selecting the nearest neighbor using the WSBM."
+  },
+  {
+    "question": "According to the collaborative filtering paradigm, what information is primarily used to predict a user's rating, and how did Breese categorize this algorithm?",
+    "answer": "Collaborative filtering uses the historical rating data of a user’s nearest neighbor. Breese categorized collaborative filtering into memory-based and model-based methods."
+  },
+  {
+    "question": "In the content-based rating prediction section, what model is used to build the feature document of items, and what tool is used to map the document to a lower dimensional space?",
+    "answer": "The Vector Space Model (VSM) is used to build the feature document, and Latent Semantic Analysis is used to map it to a lower dimensional latent semantic space."
+  },
+  {
+    "question": "How does the integrated similarity calculation defined by equation (15) distinguish between new users and old users?",
+    "answer": "For new users, similarity is based only on basic information similarity. For old users, similarity is a linear combination of basic information similarity and historical user rating similarity."
+  },
+  {
+    "question": "How is the final predicted rating P_{a,j} for a target user U_a for item I_j determined in the proposed hybrid recommendation system?",
+    "answer": "The final rating is P_{a,j} = γ₁ p_{a,j} + γ₂ pp_{a,j}, where γ₁ and γ₂ reflect the contributions of the content-based and collaborative filtering parts."
+  },
+  {
+    "question": "What are the MAE results for the proposed hybrid recommendation (Ours) and the Traditional hybrid recommendation when P* = 0.8, and what is the resulting percentage improvement?",
+    "answer": "The proposed method has MAE = 0.7717 and the traditional method MAE = 0.8918, corresponding to a 13.44% improvement."
+  },
+  {
+    "question": "How are items classified into True Positive (TP), False Positive (FP), False Negative (FN), and True Negative (TN) assuming a five-grade marking system?",
+    "answer": "TP: recommended and liked (score ≥ 3); FP: recommended and disliked; FN: not recommended but liked; TN: not recommended and disliked."
+  },
+  {
+    "question": "What characteristics define the relationship-based business ('banking') in the model, and how does it generate implicit capital?",
+    "answer": "Banking is not scalable and has a high charter value. It generates implicit equity R₀ through high returns from relationship-based information rents."
+  },
+  {
+    "question": "What constraints make standalone trading not possible in the simplified model setup?",
+    "answer": "Trading is less profitable (t < ρ) and credit constrained (t < β). The incentive compatibility constraint does not hold, making standalone trading impossible."
+  },
+  {
+    "question": "What primary benefit of conglomeration is highlighted by comparing a relationship bank to a trading business?",
+    "answer": "Conglomeration allows spare borrowing capacity from banking to be transferred to the credit-constrained trading business."
+  },
+  {
+    "question": "What timeline events are associated with the long-term banking setup incorporating time inconsistency?",
+    "answer": "At Date 0: bank obtains implicit equity and collects credit line fees. At Date 1: liquidity needs arise and the conglomerate allocates borrowing capacity between banking and trading. Returns come at Date 2."
+  },
+  {
+    "question": "Under what conditions does cutting back on banking conserve capital and allow trading to be expanded?",
+    "answer": "Capital is conserved when β exceeds the loss in profits ρ, i.e., when ρ < β."
+  },
+  {
+    "question": "Describe the interaction between time inconsistency and risk-shifting labeled 'Effect 2.'",
+    "answer": "Effect 2 shows that time inconsistency increases the equilibrium volume of trading; if binding (ρ < t), trading can exceed T_max and reach risky levels."
+  },
+  {
+    "question": "What is the technical definition of a gap in a chart pattern, and what does its existence imply?",
+    "answer": "A gap occurs when the low of one bar is higher than the high of the other. It implies no trades occurred at a certain price level."
+  },
+  {
+    "question": "What characteristics define a Continuation Gap, and how can volume analysis confirm it?",
+    "answer": "A Continuation Gap appears within a strong trend expected to continue. Volume confirmation occurs when volume jumps at least 50% above recent averages."
+  },
+  {
+    "question": "Why are EMAs considered superior to Simple MAs for trend following?",
+    "answer": "EMAs give more weight to recent data, respond faster, and fade old data gradually, avoiding irrelevant jumps."
+  },
+  {
+    "question": "Describe the typical volume pattern during the formation of a Head-and-Shoulders top pattern.",
+    "answer": "Volume is lower on the head than the left shoulder and even lower on the right. Volume rises on the break of the neckline and is thin on pullbacks."
+  },
+  {
+    "question": "What is the key visual distinction between an ascending triangle and a descending triangle, and what is their typical outcome?",
+    "answer": "An ascending triangle has a flat upper boundary and rising lower boundary, often breaking upward. A descending triangle has a flat lower boundary and declining upper boundary, often breaking downward."
+  },
+  {
+    "question": "Which category of technical analysis software is strongly advised against for serious traders, and why?",
+    "answer": "Black boxes are discouraged because they cannot adapt to changing markets and rely on outdated intelligence."
+  },
+  {
+    "question": "How does the Directional System determine a buy signal between the Directional Lines and ADX?",
+    "answer": "A buy signal occurs when +DI₁₃ and ADX are both above -DI₁₃ and ADX is rising."
+  },
+  {
+    "question": "Name the three main channels through which AI is expected to reduce commercial costs.",
+    "answer": "AI reduces costs through improved logistics, reduced compliance costs, and reduced language barriers."
+  },
+  {
+    "question": "What impact does cross-border data regulation have on AI-enabled applications?",
+    "answer": "Data restrictions reduce the value of AI-enabled apps; the tenfold foreign-user increase is halved when strong restrictions exist."
+  },
+  {
+    "question": "Why does the concentration of the AI supply chain augment risks, and what examples are given?",
+    "answer": "High concentration amplifies vulnerability to export controls and cyber threats. Examples: NVIDIA’s 80–95% dominance in chip design and TSMC’s dominance in sub-7nm chip fabrication."
+  },
+  {
+    "question": "How does the WTO’s TBT Agreement facilitate global convergence, and what action was taken regarding the EU AI Act?",
+    "answer": "The TBT Agreement requires draft-stage notifications to allow comments. In 2021, the EU notified its proposed AI Act to the TBT Committee."
+  },
+  {
+    "question": "What key policy tools are necessary for developing economies to improve AI preparedness?",
+    "answer": "They must strengthen digital infrastructure, enhance skills, and build innovation and regulatory capacity."
+  },
+  {
+    "question": "What is the scope of the WTO moratorium on customs duties on electronic transmissions, and until when was it last renewed?",
+    "answer": "It ensures no tariffs on electronic transmissions. Last renewed at MC13 until the next Ministerial Conference or 31 March 2026, whichever comes first."
+  }
+]
