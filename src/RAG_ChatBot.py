@@ -2,6 +2,8 @@ from src.retriever import Recherche
 from langchain_core.language_models import BaseLanguageModel
 from src.synthesis import ContextSynthesizer
 from src.prompts import get_rag_prompt_template
+from typing import List, Dict
+import json
 
 class RAGQuestionAnswering:
     
