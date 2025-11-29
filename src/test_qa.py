@@ -4,8 +4,10 @@ from src.rag_qa import RAGQuestionAnswering
 from langchain_openai import ChatOpenAI
 import os
 from dotenv import load_dotenv
-load_dotenv()
+
 #charger la clé API
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "file.env")
+load_dotenv(dotenv_path)
 openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
 
 llm = ChatOpenAI(
