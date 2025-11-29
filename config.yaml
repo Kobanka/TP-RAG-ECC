@@ -1,0 +1,29 @@
+# Indexation des documents
+indexation:
+  chunk_size: 500
+  chunk_overlap: 50
+  embedding_model: "sentence-transformers/all-mpnet-base-v2"
+  persist_dir: "./chroma_langchain_db"
+  data_dir: "./data"
+
+# Modèle LLM
+llm:
+  model: "mistralai/mistral-7b-instruct:free"
+  temperature: 0.1
+  base_url: "https://openrouter.ai/api/v1"
+  api_key_env: "OPENROUTER_API_KEY"
+
+# RAG et Chatbot
+rag:
+  max_history: 5
+  k_retrieve: 4
+
+# Évaluation
+evaluator:
+  embed_model: "all-mpnet-base-v2"
+
+# Chemins
+paths:
+  data: "./data"
+  vectorstore: "./chroma_langchain_db"
+  env_file: "file.env"
