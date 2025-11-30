@@ -46,7 +46,7 @@ def invoke_ai(system_message: str, user_message: str, *, model: Optional[str] = 
             "Content-Type": "application/json",
         }
         body = {
-            "model": model or "mistralai/mistral-7b-instruct:free",
+            "model": model,
             "messages": [
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": user_message},
@@ -59,10 +59,13 @@ def invoke_ai(system_message: str, user_message: str, *, model: Optional[str] = 
         j = resp.json()
         # OpenRouter response shape: {choices: [{message: {role:..., content: ...}}], ...}
         try:
-            return j["choices"][0]["message"]["content"]
-        except Exception:
+            content = j["choices"][0]["message"]["content"]
+            if content is None or (isinstance(content, str) and content.strip() == ""):
+                raise ValueError(f"Empty response from LLM. Full response: {json.dumps(j)}")
+            return content
+        except (KeyError, IndexError, TypeError) as e:
             # some versions return text directly in 'choices[0].message.content'
-            return json.dumps(j)
+            raise ValueError(f"Unexpected response format from OpenRouter: {json.dumps(j)}") from e
 
     # fallback: try OpenAI python client if installed and configured
     openai_key = os.getenv("OPENAI_API_KEY")

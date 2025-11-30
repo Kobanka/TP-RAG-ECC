@@ -96,13 +96,24 @@ class LLMJudgeEvaluator:
             "expected_answer": expected_answer,
         }, ensure_ascii=False)
 
-        llm_output = invoke_ai(
-            system_message=self.system_prompt, 
-            user_message=user_message,
-            model=self.model,
-            temperature=0.0,
-            max_tokens=1024
-        )
+        try:
+            llm_output = invoke_ai(
+                system_message=self.system_prompt, 
+                user_message=user_message,
+                model=self.model,
+                temperature=0.0,
+                max_tokens=1024
+            )
+            
+            # Debug: print raw output
+            print(f"    [DEBUG] LLM raw output length: {len(llm_output)} chars")
+            if not llm_output or llm_output.strip() == "":
+                print(f"    [WARNING] LLM returned empty response!")
+                llm_output = '{"correctness": 0.0, "groundedness": 0.0, "context_relevance": 0.0, "reasoning": "LLM returned empty response"}'
+                
+        except Exception as e:
+            print(f"    [ERROR] LLM invocation failed: {e}")
+            llm_output = f'{{"correctness": 0.0, "groundedness": 0.0, "context_relevance": 0.0, "reasoning": "Error: {str(e)}"}}'
 
         correctness, groundedness, context_relevance, reasoning = self._parse_json_or_fallback(llm_output)
 
