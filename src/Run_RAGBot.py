@@ -1,4 +1,4 @@
-# test_qa.py
+# test file for chatbot
 from src.retriever import Recherche
 from src.RAG_ChatBot import RAGQuestionAnswering
 from langchain_openai import ChatOpenAI
