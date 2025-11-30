@@ -1,7 +1,7 @@
 # python cli.py index
 # python cli.py query --q "ma question"
 # python cli.py chat
-# python cli.py evaluate
+# python cli.py evaluate --reference "This is the correct answer" --prediction "This is the predicted answer"
 
 import argparse,yaml,sys,os,glob
 from pathlib import Path
