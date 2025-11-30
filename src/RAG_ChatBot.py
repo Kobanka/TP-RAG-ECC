@@ -7,9 +7,13 @@ import json
 
 class RAGQuestionAnswering:
     
-    def __init__(self, retriever: Recherche, llm: BaseLanguageModel, max_history: int = 5):
+    def __init__(self, retriever: Recherche, llm: BaseLanguageModel, max_history: int = None):
+        with open('../config.yaml', 'r') as f:
+            config = yaml.safe_load(f)
+
         self.conversation_history: List[Dict[str, str]] = []
-        self.max_history = max_history
+        self.max_history = max_history if max_history is not None else config['rag']['max_history']
+        self.k_retrieve = config['rag']['k_retrieve']
         self.retriever = retriever
         self.llm = llm
         self.synthesizer = ContextSynthesizer()
