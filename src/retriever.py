@@ -1,5 +1,6 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
+import yaml
 
 class Recherche:
     def __init__(self, persist_dir="./chroma_langchain_db"):
@@ -30,4 +31,5 @@ class Recherche:
                 "content": doc.page_content  # snippet
             })
         return output
+
 
