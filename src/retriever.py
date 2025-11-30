@@ -4,7 +4,7 @@ import yaml
 
 class Recherche:
     def __init__(self, persist_dir=None):
-        with open('../config.yaml', 'r') as f:
+        with open('./config.yaml', 'r') as f:
             config = yaml.safe_load(f)
 
         self.persist_dir = persist_dir if persist_dir is not None else config['indexation']['persist_dir']
@@ -31,6 +31,7 @@ class Recherche:
                 "content": doc.page_content  # snippet
             })
         return output
+
 
 
 
