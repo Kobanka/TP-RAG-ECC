@@ -24,6 +24,7 @@ evaluator:
 
 # Chemins
 paths:
-  data: "./data"
+  data: "../data"
   vectorstore: "./chroma_langchain_db"
   env_file: "file.env"
+
