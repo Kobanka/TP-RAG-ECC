@@ -6,7 +6,7 @@ from langchain_community.document_loaders import PyPDFium2Loader
 import yaml
 
 class Indexation:
-    def __init__(self, path, chunk_size, chunk_overlap):
+    def __init__(self, path, chunk_size= None, chunk_overlap=None):
                 with open('../config.yaml', 'r') as f:
             config = yaml.safe_load(f)
 
@@ -60,5 +60,6 @@ class Indexation:
 #pour utiliser la class et avoir les embeddings
 #test = Indexation('data/doc_1.pdf', 500, 50)
 #print(test.index().get(include=["embeddings"])['embeddings'])
+
 
 
