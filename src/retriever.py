@@ -22,6 +22,6 @@ class Recherche:
             output.append({
                 "source": doc.metadata.get("source", "unknown"),
                 "score": float(score),
-                "content": doc.page_content[:300]  # snippet
+                "content": doc.page_content  # snippet
             })
         return output
