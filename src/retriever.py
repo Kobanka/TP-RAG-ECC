@@ -3,7 +3,7 @@ from langchain_chroma import Chroma
 import yaml
 
 class Recherche:
-    def __init__(self, persist_dir="./chroma_langchain_db"):
+    def __init__(self, persist_dir=None):
         with open('../config.yaml', 'r') as f:
             config = yaml.safe_load(f)
 
@@ -31,5 +31,6 @@ class Recherche:
                 "content": doc.page_content  # snippet
             })
         return output
+
 
 
