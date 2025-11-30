@@ -189,8 +189,7 @@ llm_evaluate_rag.py       # Script maître d’évaluation par LLM
 
 
 ## 🚀 Améliorations possibles
-
-- Support de formats multiples (Markdown, HTML, web scraping)  
+ 
 - Filtrage dynamique des chunks par seuil de similarité  
 - Interface web interactive (Gradio ou Streamlit)  
 - Fine-tuning du LLM sur le domaine spécifique de Trading
