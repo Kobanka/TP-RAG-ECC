@@ -15,7 +15,7 @@ load_dotenv("file.env")
 
 from src.document_indexer import Indexation
 from src.retriever import Recherche
-from src.chatbot import RAGQuestionAnswering
+from src.RAG_ChatBot import RAGQuestionAnswering
 from src.evaluator import Evaluator
 from langchain_openai import ChatOpenAI
 
@@ -103,3 +103,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
