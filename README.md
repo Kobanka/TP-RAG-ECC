@@ -149,8 +149,7 @@ Ces métriques permettent d’évaluer à la fois la **fidélité factuelle** et
 
 
 ## 🚀 Améliorations possibles
-
-- Support de formats multiples (Markdown, HTML, web scraping)  
+ 
 - Filtrage dynamique des chunks par seuil de similarité  
 - Interface web interactive (Gradio ou Streamlit)  
 - Fine-tuning du LLM sur le domaine spécifique de Trading
