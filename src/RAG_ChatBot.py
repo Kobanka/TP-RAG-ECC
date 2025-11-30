@@ -8,7 +8,7 @@ import json,yaml
 class RAGQuestionAnswering:
     
     def __init__(self, retriever: Recherche, llm: BaseLanguageModel, max_history: int = None):
-        with open('../config.yaml', 'r') as f:
+        with open('./config.yaml', 'r') as f:
             config = yaml.safe_load(f)
 
         self.conversation_history: List[Dict[str, str]] = []
