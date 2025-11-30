@@ -3,8 +3,13 @@ from langchain_chroma import Chroma
 
 class Recherche:
     def __init__(self, persist_dir="./chroma_langchain_db"):
-        self.persist_dir = persist_dir
-        self.embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+        with open('../config.yaml', 'r') as f:
+            config = yaml.safe_load(f)
+
+        self.persist_dir = persist_dir if persist_dir is not None else config['indexation']['persist_dir']
+        self.embedding_model = HuggingFaceEmbeddings(
+            model_name=config['indexation']['embedding_model']
+        )
         self.vectorstore = Chroma(
             persist_directory=persist_dir,
             embedding_function=self.embedding_model
@@ -25,3 +30,4 @@ class Recherche:
                 "content": doc.page_content  # snippet
             })
         return output
+
