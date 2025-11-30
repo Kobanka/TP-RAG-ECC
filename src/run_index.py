@@ -1,3 +1,5 @@
+#fichier test pour run l'indexer
+
 from src.document_indexer import Indexation
 import glob
 import os
