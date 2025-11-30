@@ -4,7 +4,7 @@ indexation:
   chunk_overlap: 50
   embedding_model: "sentence-transformers/all-mpnet-base-v2"
   persist_dir: "./chroma_langchain_db"
-  data_dir: "./data"
+  data_dir: "../data"
 
 # Modèle LLM
 llm:
@@ -27,4 +27,5 @@ paths:
   data: "../data"
   vectorstore: "./chroma_langchain_db"
   env_file: "file.env"
+
 
