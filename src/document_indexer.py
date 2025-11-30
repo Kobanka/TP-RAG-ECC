@@ -3,6 +3,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyPDFium2Loader 
+import yaml
 
 class Indexation:
     def __init__(self, path, chunk_size, chunk_overlap):
@@ -59,4 +60,5 @@ class Indexation:
 #pour utiliser la class et avoir les embeddings
 #test = Indexation('data/doc_1.pdf', 500, 50)
 #print(test.index().get(include=["embeddings"])['embeddings'])
+
 
