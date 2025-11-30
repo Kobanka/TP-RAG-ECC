@@ -60,23 +60,27 @@ Le projet se fonde sur les principes du **pipeline RAG**, qui combine :
 ```
 TP-RAG-ECC/
 │
-├── data/                       # Fichiers PDF ou Markdown à indexer
-├── src/                        # Code source principal
-│   ├── document_indexer.py     # Classe pour l’indexation des documents
-│   ├── retriever.py            # Module de recherche vectorielle
-│   ├── synthesis.py            # ContextSynthesizer
-│   ├── prompts.py              # Prompt template structuré
-│   ├── RAG_ChatBot.py          # RAGQuestionAnswering + historique
-│   ├── evaluator.py            # Evaluation quantitative
-│   └── run_index.py            # Script utilitaire pour l’indexation
+├── data/                           # Fichiers PDF/Markdown à indexer
 │
-├── config.yaml                 # Fichier de configuration (modèles, paramètres, chemins)
-├── cli.py                      # Interface en ligne de commande (index, query, chat, evaluate)
-├── requirements.txt            # Dépendances Python
-├── .env.example                # Exemple de fichier pour la clé API
-└── README.md                   # Documentation (ce fichier)
-
-```
+├── src/                            # Code source principal
+│   ├── document_indexer.py         # Classe pour l’indexation des documents
+│   ├── retriever.py                # Moteur de recherche vectorielle (LanceDB, FAISS, etc.)
+│   ├── synthesis.py                # ContextSynthesizer : sélection/consolidation des passages
+│   ├── prompts.py                  # Prompt templates utilisés par le chatbot et les évaluations
+│   ├── RAG_ChatBot.py              # RAGQuestionAnswering + gestion de l’historique
+│   ├── evaluator.py                # Métriques quantitatives (precision@k, MRR, recall)
+│   ├── extract_xml.py              # Extraction structurée depuis XML / DocLing
+│   ├── invoke_ai.py                # Wrapper pour appeler OpenAI / DeepInfra / Cohere / local LLM
+│   ├── Ilm_judge.py                # Implémentation de la méthode LLM-as-a-Judge
+│   └── run_index.py                # Script utilitaire pour (ré)indexer les documents
+│
+├── config.yaml                     # Paramètres généraux : modèles, chemins, embeddings, DB
+├── cli.py                          # CLI: index | query | chat | eval | llm-eval
+├── llm_evaluate_rag.py             # Script principal pour l’évaluation par LLM (LLM-based eval)
+│
+├── requirements.txt                # Dépendances Python
+├── .env.example                    # Exemple de configuration API keys
+└── README.md                       # Documentation + guide d'exécution
 
 ---
 
@@ -146,6 +150,42 @@ Le système inclut un module d’évaluation (`evaluator.py`) qui calcule trois 
 - **Similarité sémantique** (cosinus entre embeddings `all-mpnet-base-v2`)  
 
 Ces métriques permettent d’évaluer à la fois la **fidélité factuelle** et la **qualité de reformulation** des réponses générées.
+
+### ⭐ Bonus : Évaluation LLM (LLM-as-a-Judge) — `llm_evaluate_rag.py`
+
+Ce module permet une évaluation qualitative avancée, basée sur un LLM puissant (ex : GPT-4, GPT-4o, Claude 3.5, ou tout LLM premium sur DeepInfra**).
+
+▶️ **Comment utiliser l’évaluation LLM ?**
+
+| Usage                          | Commande                                    |
+|--------------------------------|---------------------------------------------|
+| 🎯 Test rapide sur 5 questions | `python llm_evaluate_rag.py --num 5`        |
+| 📘 Évaluation complète         | `python llm_evaluate_rag.py --all`          |
+| 🎲 Échantillon aléatoire de 10 | `python llm_evaluate_rag.py --random 10`    |
+
+Le script génère ensuite un fichier :
+
+`results/llm_eval_report.json`
+
+Avec pour chaque question : la requête, la réponse du RAG, la réponse de référence, les scores du LLM et la justification textuelle.
+
+🔑 **Configuration API (obligatoire)**
+
+Crée un fichier `.env` (ou utilise l'exemple `.env.example`) :
+
+```env
+OPENROUTER_API_KEY=votre_clé_ici
+
+```
+
+Les fichiers impliqués :
+
+src/
+├── evaluator.py          # EM, F1, Similarité sémantique
+├── Ilm_judge.py          # LLM-as-a-judge
+└── invoke_ai.py          # Abstraction pour appeler OpenAI / DeepInfra / Cohere / Local
+
+llm_evaluate_rag.py       # Script maître d’évaluation par LLM
 
 
 ## 🚀 Améliorations possibles
