@@ -6,9 +6,14 @@ from langchain_community.document_loaders import PyPDFium2Loader
 
 class Indexation:
     def __init__(self, path, chunk_size, chunk_overlap):
+                with open('../config.yaml', 'r') as f:
+            config = yaml.safe_load(f)
+
         self.path = path
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        self.chunk_size = chunk_size if chunk_size is not None else config['indexation']['chunk_size']
+        self.chunk_overlap = chunk_overlap if chunk_overlap is not None else config['indexation']['chunk_overlap']
+        self.embedding_model_name = config['indexation']['embedding_model']
+        self.persist_dir = config['indexation']['persist_dir']
 
         self.documents = None
         self.chunks = None
@@ -54,3 +59,4 @@ class Indexation:
 #pour utiliser la class et avoir les embeddings
 #test = Indexation('data/doc_1.pdf', 500, 50)
 #print(test.index().get(include=["embeddings"])['embeddings'])
+
