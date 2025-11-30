@@ -6,6 +6,14 @@ indexation:
   persist_dir: "./chroma_langchain_db"
   data_dir: "../data"
 
+# Synthèse du contexte
+synthesizer:
+  max_chunk_size: 500
+  intro_message: "Voici les extraits les plus pertinents trouvés dans les documents :"
+  default_source: "document inconnu"
+  default_page: "page inconnue"
+  score_precision: 3
+  
 # Modèle LLM
 llm:
   model: "mistralai/mistral-7b-instruct:free"
@@ -27,5 +35,6 @@ paths:
   data: "../data"
   vectorstore: "./chroma_langchain_db"
   env_file: "file.env"
+
 
 
