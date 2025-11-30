@@ -7,7 +7,7 @@ import argparse,yaml,sys,os,glob
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv("file.env")
+load_dotenv(".env")
 
 from src.document_indexer import Indexation
 from src.retriever import Recherche
@@ -155,3 +155,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
