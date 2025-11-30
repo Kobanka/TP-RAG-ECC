@@ -16,7 +16,7 @@ synthesizer:
   
 # Modèle LLM
 llm:
-  model: "mistralai/mistral-7b-instruct:free"
+  model: "mistralai/mistral-7b-instruct:free"  
   temperature: 0.1
   base_url: "https://openrouter.ai/api/v1"
   api_key_env: "OPENROUTER_API_KEY"
