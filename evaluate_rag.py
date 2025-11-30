@@ -26,7 +26,7 @@ load_dotenv(".env")
 
 from src.retriever import Recherche
 from src.RAG_ChatBot import RAGQuestionAnswering
-from src.evaluator import Evaluator
+from src.llm_judge import LLMJudgeEvaluator
 from langchain_openai import ChatOpenAI
 
 
@@ -73,7 +73,7 @@ def select_questions(questions: List[Dict], mode: str, num: int = None) -> List[
 
 
 def evaluate_rag_system(questions: List[Dict], rag: RAGQuestionAnswering, 
-                       evaluator: Evaluator, k_retrieve: int) -> List[Dict]:
+                       evaluator: LLMJudgeEvaluator, retriever: Recherche, k_retrieve: int) -> List[Dict]:
     """Evaluate RAG system on selected questions"""
     results = []
     
@@ -86,6 +86,15 @@ def evaluate_rag_system(questions: List[Dict], rag: RAGQuestionAnswering,
         
         print(f"\n[{i}/{len(questions)}] Question: {question[:80]}...")
         
+        # Get retrieved context
+        try:
+            retrieved_docs = retriever.query(question, k=k_retrieve)
+            context = "\n\n".join([f"[Doc {j+1}] {doc['content'][:300]}..." 
+                                   for j, doc in enumerate(retrieved_docs)])
+        except Exception as e:
+            print(f"  ERROR: Failed to retrieve context: {e}")
+            context = ""
+        
         # Get RAG prediction
         try:
             prediction = rag.answer(question, k=k_retrieve)
@@ -93,26 +102,38 @@ def evaluate_rag_system(questions: List[Dict], rag: RAGQuestionAnswering,
             print(f"  ERROR: Failed to get prediction: {e}")
             prediction = ""
         
-        # Compute metrics
+        # Evaluate with LLM judge
         try:
-            metrics = evaluator.evaluate_pair(reference, prediction)
+            metrics = evaluator.evaluate(
+                question=question,
+                answer=prediction,
+                context=context,
+                expected_answer=reference
+            )
         except Exception as e:
-            print(f"  ERROR: Failed to compute metrics: {e}")
-            metrics = {"exact_match": 0, "f1": 0.0, "semantic_similarity": 0.0}
+            print(f"  ERROR: Failed to evaluate: {e}")
+            metrics = {
+                "correctness": 0.0,
+                "groundedness": 0.0,
+                "context_relevance": 0.0,
+                "reasoning": f"Evaluation failed: {str(e)}"
+            }
         
         # Store result
         result = {
             "question": question,
             "reference": reference,
             "prediction": prediction,
+            "context_preview": context[:500] + "..." if len(context) > 500 else context,
             "metrics": metrics
         }
         results.append(result)
         
         # Print metrics
-        print(f"  Exact Match: {metrics['exact_match']}")
-        print(f"  F1 Score: {metrics['f1']:.4f}")
-        print(f"  Semantic Similarity: {metrics['semantic_similarity']:.4f}")
+        print(f"  Correctness: {metrics['correctness']:.3f}")
+        print(f"  Groundedness: {metrics['groundedness']:.3f}")
+        print(f"  Context Relevance: {metrics['context_relevance']:.3f}")
+        print(f"  Reasoning: {metrics.get('reasoning', 'N/A')[:100]}...")
     
     return results
 
@@ -122,23 +143,23 @@ def compute_summary_metrics(results: List[Dict]) -> Dict[str, Any]:
     if not results:
         return {}
     
-    total_exact_match = sum(r["metrics"]["exact_match"] for r in results)
-    total_f1 = sum(r["metrics"]["f1"] for r in results)
-    total_similarity = sum(r["metrics"]["semantic_similarity"] for r in results)
+    total_correctness = sum(r["metrics"]["correctness"] for r in results)
+    total_groundedness = sum(r["metrics"]["groundedness"] for r in results)
+    total_context_relevance = sum(r["metrics"]["context_relevance"] for r in results)
     
     n = len(results)
     
     return {
         "num_questions": n,
-        "avg_exact_match": total_exact_match / n,
-        "avg_f1": total_f1 / n,
-        "avg_semantic_similarity": total_similarity / n
+        "avg_correctness": total_correctness / n,
+        "avg_groundedness": total_groundedness / n,
+        "avg_context_relevance": total_context_relevance / n
     }
 
 
 def find_lowest_scoring(results: List[Dict], top_n: int = 5) -> List[Dict]:
-    """Find questions with lowest scores"""
-    sorted_results = sorted(results, key=lambda x: x["metrics"]["semantic_similarity"])
+    """Find questions with lowest correctness scores"""
+    sorted_results = sorted(results, key=lambda x: x["metrics"]["correctness"])
     return sorted_results[:top_n]
 
 
@@ -162,20 +183,23 @@ def save_results(results: List[Dict], summary: Dict[str, Any],
 def print_summary(summary: Dict[str, Any], lowest_scoring: List[Dict]):
     """Print summary to console"""
     print("\n" + "=" * 70)
-    print("EVALUATION SUMMARY")
+    print("EVALUATION SUMMARY (LLM-as-Judge)")
     print("=" * 70)
     print(f"Total Questions Evaluated: {summary['num_questions']}")
-    print(f"Average Exact Match: {summary['avg_exact_match']:.2%}")
-    print(f"Average F1 Score: {summary['avg_f1']:.4f}")
-    print(f"Average Semantic Similarity: {summary['avg_semantic_similarity']:.4f}")
+    print(f"Average Correctness: {summary['avg_correctness']:.3f}")
+    print(f"Average Groundedness: {summary['avg_groundedness']:.3f}")
+    print(f"Average Context Relevance: {summary['avg_context_relevance']:.3f}")
     
     print("\n" + "-" * 70)
-    print("LOWEST SCORING QUESTIONS (for improvement)")
+    print("LOWEST SCORING QUESTIONS (by correctness, for improvement)")
     print("-" * 70)
     for i, result in enumerate(lowest_scoring, 1):
         print(f"\n{i}. Question: {result['question'][:80]}...")
-        print(f"   Semantic Similarity: {result['metrics']['semantic_similarity']:.4f}")
-        print(f"   F1 Score: {result['metrics']['f1']:.4f}")
+        print(f"   Correctness: {result['metrics']['correctness']:.3f}")
+        print(f"   Groundedness: {result['metrics']['groundedness']:.3f}")
+        print(f"   Context Relevance: {result['metrics']['context_relevance']:.3f}")
+        reasoning = result['metrics'].get('reasoning', 'N/A')
+        print(f"   Reasoning: {reasoning[:150]}...")
     print("=" * 70)
 
 
@@ -261,18 +285,19 @@ def main():
         traceback.print_exc()
         sys.exit(1)
     
+    # Initialize LLM Judge Evaluator
     try:
-        evaluator = Evaluator()
-        print("✓ Evaluator initialized")
+        evaluator = LLMJudgeEvaluator(model=config['llm']['model'])
+        print("✓ LLM Judge Evaluator initialized")
     except Exception as e:
-        print(f"✗ ERROR initializing Evaluator: {e}")
+        print(f"✗ ERROR initializing LLM Judge: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
     
     # Run evaluation
     start_time = datetime.now()
-    results = evaluate_rag_system(selected_questions, rag, evaluator, k_retrieve)
+    results = evaluate_rag_system(selected_questions, rag, evaluator, retriever, k_retrieve)
     end_time = datetime.now()
     
     # Compute summary
