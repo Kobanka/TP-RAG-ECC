@@ -81,8 +81,10 @@ TP-RAG-ECC/
 ├── requirements.txt                # Dépendances Python
 ├── .env.example                    # Exemple de configuration API keys
 └── README.md                       # Documentation + guide d'exécution
+```
 
 ---
+
 
 ## 🧠 Technologies et bibliothèques
 - **Framework** : LangChain
@@ -180,13 +182,14 @@ OPENROUTER_API_KEY=votre_clé_ici
 
 Les fichiers impliqués :
 
+```
 src/
 ├── evaluator.py          # EM, F1, Similarité sémantique
 ├── Ilm_judge.py          # LLM-as-a-judge
 └── invoke_ai.py          # Abstraction pour appeler OpenAI / DeepInfra / Cohere / Local
 
 llm_evaluate_rag.py       # Script maître d’évaluation par LLM
-
+```
 
 ## 🚀 Améliorations possibles
  
